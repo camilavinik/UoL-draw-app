@@ -24,6 +24,7 @@ function setup() {
 	toolbox.addTool(new LineToTool());
 	toolbox.addTool(new SprayCanTool());
 	toolbox.addTool(new mirrorDrawTool());
+	toolbox.addTool(new CircleTool());
 	background(255);
 
 }
@@ -33,6 +34,7 @@ function draw() {
 	//hasOwnProperty is a javascript function that tests
 	//if an object contains a particular method or property
 	//if there isn't a draw method the app will alert the user
+	noFill()
 	if (toolbox.selectedTool.hasOwnProperty("draw")) {
 		toolbox.selectedTool.draw();
 	} else {

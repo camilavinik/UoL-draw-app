@@ -6,20 +6,17 @@ function ColourPalette() {
 		"blue", "teal", "aqua"
 	];
 	//make the start colour be black
-	this.selectedColour = "black";
-
-	var self = this;
 
 	var colourClick = function() {
 		//remove the old border
-		var current = select("#" + self.selectedColour + "Swatch");
+		var current = select("#" + selectedColour + "Swatch");
 		current.style("border", "0");
 
 		//get the new colour from the id of the clicked element
 		var c = this.id().split("Swatch")[0];
 
 		//set the selected colour and fill and stroke
-		self.selectedColour = c;
+		selectedColour = c;
 		fill(c);
 		stroke(c);
 

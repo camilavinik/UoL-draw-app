@@ -4,6 +4,7 @@ var toolbox = null;
 var stickers = null;
 var colourP = null;
 var helpers = null;
+var selectedColour = 'black';
 
 var stickersImg = {
   star: null,
@@ -43,10 +44,14 @@ function setup() {
   toolbox.addTool(new mirrorDrawTool());
   toolbox.addTool(new CircleTool());
   toolbox.addTool(new RectangleTool());
+  toolbox.addTool(new ScissorsTool());
   background(255);
 }
 
 function draw() {
+  //set stroke color
+  stroke(selectedColour)
+
   //call the draw function from the selected tool.
   //hasOwnProperty is a javascript function that tests
   //if an object contains a particular method or property

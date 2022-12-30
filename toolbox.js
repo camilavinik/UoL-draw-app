@@ -69,5 +69,14 @@ function Toolbox() {
 		}
 	};
 
+	this.unselectTool = function() {
+		//remove any existing borders
+		var items = selectAll(".sideBarItem");
+		for (var i = 0; i < items.length; i++) {
+			items[i].style('border', '0')
+		}
 
+		// remove selected tool
+		this.selectedTool = null
+	}
 }

@@ -3,8 +3,10 @@
 var toolbox = null;
 var stickers = null;
 var colourP = null;
+var lineWeight = null;
 var helpers = null;
 var selectedColour = 'black';
+var selectedLine = 'small'
 
 var stickersImg = {
   star: null,
@@ -30,6 +32,9 @@ function setup() {
   //create helper functions and the colour palette
   helpers = new HelperFunctions();
   colourP = new ColourPalette();
+
+  //create line weight picker
+  lineWeight = new LineWeight();
 
   //create a toolbox for storing the tools
   toolbox = new Toolbox();

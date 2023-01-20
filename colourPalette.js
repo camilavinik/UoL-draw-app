@@ -47,14 +47,14 @@ function ColourPalette() {
     fill(this.colours[0]);
     stroke(this.colours[0]);
 
-    //for each colour create a new div in the html for the colourSwatches
+    //for each colour create a new div in the html for the swatches
     for (var i = 0; i < this.colours.length; i++) {
       var colourID = this.colours[i] + "Swatch";
 
       //using JQuery add the swatch to the palette and set its background colour
       //to be the colour value.
       var colourSwatch = createDiv();
-      colourSwatch.class("colourSwatches");
+      colourSwatch.class("swatches");
       colourSwatch.id(colourID);
 
       select(".colourPalette").child(colourSwatch);
@@ -65,14 +65,12 @@ function ColourPalette() {
     //create color picker and add it to the html
     let colourPicker = createInput("#D8BFD8", "color");
     colourPicker.size(41, 41);
-    colourPicker.position(305, height + 93);
+    colourPicker.position(305, height + 95);
     colourPicker.input(function () {
       colourPicker.id(this.value() + "Swatch");
       //call colourClick and pass this reference
       colourClick.call(this);
     });
-
-    select(".colourSwatches").style("border", "2px solid blue");
   };
   //call the loadColours function now it is declared
   this.loadColours();

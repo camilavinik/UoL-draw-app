@@ -37,10 +37,17 @@ body {
 }
 
 .colourPalette {
+  padding-top: 3px;
   grid-area: colourP;
   display: flex;
   flex-direction: grid;
   flex-flow: wrap;
+}
+
+.lineWeightSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .options {
@@ -48,13 +55,26 @@ body {
   padding: 15px;
 }
 
-.colourSwatches {
+.swatches {
   box-sizing: border-box;
   width: 40px;
   height: 40px;
   max-height: 40px;
   max-width: 40px;
   margin: 5px;
+}
+
+.lineWeightContainer {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineWeight {
+  background-color: black;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
 }
 
 .wrapper {
@@ -76,7 +96,8 @@ body {
 }
 .row {
   display: flex;
-  padding: 10px;
+  padding: 0;
+  padding: 3px 3px 0 56px;
 }
 
 .row > div {

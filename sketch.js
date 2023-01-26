@@ -50,6 +50,7 @@ function setup() {
   toolbox.addTool(new CircleTool());
   toolbox.addTool(new RectangleTool());
   toolbox.addTool(new ScissorsTool());
+  toolbox.addTool(new FillTool());
   background(255);
 }
 

@@ -5,15 +5,6 @@ function FillTool() {
   let firstPress = true;
 
   // TODO: change these functions
-  function arrayEquals(a, b) {
-    return (
-      Array.isArray(a) &&
-      Array.isArray(b) &&
-      a.length === b.length &&
-      a.every((val, index) => val === b[index])
-    );
-  }
-
   function expandToNeighbours(queue, current) {
     x = current.x;
     y = current.y;
@@ -37,37 +28,40 @@ function FillTool() {
     return queue;
   }
 
-  function floodFill(seed, fillColor) {
+  function floodFill(seed, fillColour) {
     loadPixels();
 
     index = 4 * (width * seed.y + seed.x);
-    seedColor = [
+    seedColour = [
       pixels[index],
       pixels[index + 1],
       pixels[index + 2],
       pixels[index + 3],
     ];
 
-    console.log(seedColor);
+    // If fillColour is same as base colour return to avoid unnecesary painting
+    if (arraysAreEquals(fillColour, seedColour)) return;
+
+    console.log('seedColour: ', seedColour);
     let queue = [];
     queue.push(seed);
 
     while (queue.length) {
       let current = queue.shift();
       index = 4 * (width * current.y + current.x);
-      let color = [
+      let colour = [
         pixels[index],
         pixels[index + 1],
         pixels[index + 2],
         pixels[index + 3],
       ];
 
-      if (!arrayEquals(color, seedColor)) {
+      if (!arraysAreEquals(colour, seedColour)) {
         continue;
       }
 
       for (let i = 0; i < 4; i++) {
-        pixels[index + i] = fillColor[0 + i];
+        pixels[index + i] = fillColour[0 + i];
       }
 
       queue = expandToNeighbours(queue, current);
@@ -76,13 +70,12 @@ function FillTool() {
     updatePixels();
   }
 
-  //TODO: do not do this when you selecting something
   this.draw = function () {
     //only paint when mouse is clicked the first time
-    if (mouseIsPressed) {
+    if (mouseIsPressed && isInCanvas(mouseX, mouseY)) {
       if (firstPress) { // TODO: can we remove this?
         firstPress = false;
-        floodFill(createVector(mouseX, mouseY), [random(255), random(255), random(255), 255]);
+        floodFill(createVector(mouseX, mouseY), color(selectedColour).levels);
       }
     } else {
       firstPress = true;

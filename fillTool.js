@@ -1,65 +1,91 @@
 //Displays and handles the filling tool.
 function FillTool() {
-  this.icon = "assets/scissors.jpg";
+  this.icon = "assets/circle.jpg";
   this.name = "Fill";
-  this.baseColour = null;
+  let firstPress = true;
 
-  const isInside = (x, y) => {
-    //if its the same colour as base
-    console.log("IS INSIDE? ", get(x, y).toString() === this.baseColour.toString(), "EL PIXEL: " ,x, y)
+  // TODO: change these functions
+  function arrayEquals(a, b) {
+    return (
+      Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index])
+    );
+  }
 
-    return get(x, y).toString() === this.baseColour.toString();
-  };
+  function expandToNeighbours(queue, current) {
+    x = current.x;
+    y = current.y;
 
-  const paint = (x, y) => point(x, y);
-
-  const fill = (x, y) => {
-    // console.log("START FILL WITH: ", selectedColour)
-    if (!isInside(x, y)) return;
-    let s = [];
-    s.push({ x1: x, x2: x, y: y, dy: 1 });
-    s.push({ x1: x, x2: x, y: y - 1, dy: -1 });
-
-    while (s.length) {
-        // console.log('ENTERED FIRST WHILE')
-      let { x1, x2, y, dy } = s.pop();
-      let x = x1;
-      if (isInside(x, y)) {
-        while (isInside(x - 1, y)) {
-          paint(x - 1, y);
-          x = x - 1;
-        }
-      }
-      if (x < x1) {
-        s.push({ x1: x, x2: x1 - 1, y: y - dy, dy: -dy });
-      }
-      while (x1 <= x2) {
-        // console.log('ENTERED SECOND WHILE')
-        while (isInside(x1, y)) {
-            console.log("PAINTED", x1, y)
-          paint(x1, y);
-          x1 = x1 + 1;
-          s.push({ x1: x, x2: x1 - 1, y: y + dy, dy: dy });
-          if (x1 - 1 > x2) {
-            s.push({ x1: x2 + 1, x2: x1 - 1, y: y - dy, dy: -dy });
-          }
-        }
-        x1 = x1 + 1;
-        while (x1 < x2 && !isInside(x1, y)) {
-            console.log('ENTERED THIRD WHILE')
-          x1 = x1 + 1;
-        }
-        x = x1;
-      }
+    if (x - 1 > 0) {
+      queue.push(createVector(x - 1, y));
     }
-  };
 
+    if (x + 1 < width) {
+      queue.push(createVector(x + 1, y));
+    }
+
+    if (y - 1 > 0) {
+      queue.push(createVector(x, y - 1));
+    }
+
+    if (y + 1 < height) {
+      queue.push(createVector(x, y + 1));
+    }
+
+    return queue;
+  }
+
+  function floodFill(seed, fillColor) {
+    loadPixels();
+
+    index = 4 * (width * seed.y + seed.x);
+    seedColor = [
+      pixels[index],
+      pixels[index + 1],
+      pixels[index + 2],
+      pixels[index + 3],
+    ];
+
+    console.log(seedColor);
+    let queue = [];
+    queue.push(seed);
+
+    while (queue.length) {
+      let current = queue.shift();
+      index = 4 * (width * current.y + current.x);
+      let color = [
+        pixels[index],
+        pixels[index + 1],
+        pixels[index + 2],
+        pixels[index + 3],
+      ];
+
+      if (!arrayEquals(color, seedColor)) {
+        continue;
+      }
+
+      for (let i = 0; i < 4; i++) {
+        pixels[index + i] = fillColor[0 + i];
+      }
+
+      queue = expandToNeighbours(queue, current);
+    }
+
+    updatePixels();
+  }
+
+  //TODO: do not do this when you selecting something
   this.draw = function () {
-    //only draw when mouse is clicked
+    //only paint when mouse is clicked the first time
     if (mouseIsPressed) {
-      this.baseColour = get(mouseX, mouseY);
-      console.log("BASE COLOUR IS: ", this.baseColour)
-      fill(mouseX, mouseY);
+      if (firstPress) { // TODO: can we remove this?
+        firstPress = false;
+        floodFill(createVector(mouseX, mouseY), [random(255), random(255), random(255), 255]);
+      }
+    } else {
+      firstPress = true;
     }
   };
 }

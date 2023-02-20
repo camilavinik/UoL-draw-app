@@ -44,8 +44,7 @@ function Toolbox() {
   };
 
   this.selectTool = function (toolName) {
-    //search through the tools for one that's name matches
-    //toolName
+    //search through the tools for one that's name matches toolName
     for (let i = 0; i < this.tools.length; i++) {
       if (this.tools[i].name == toolName) {
         //if the tool has an unselectTool method run it.

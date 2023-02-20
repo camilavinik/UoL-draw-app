@@ -1,34 +1,24 @@
 //Displays and handles the filling tool.
 function FillTool() {
-  this.icon = "assets/circle.jpg";
+  this.icon = "assets/fill.jpg";
   this.name = "Fill";
   let firstPress = true;
 
   // TODO: change these functions
-  function expandToNeighbours(queue, current) {
-    x = current.x;
-    y = current.y;
+  function expandToNeighbours(paintingQueue, currentPixel) {
+    x = currentPixel.x;
+    y = currentPixel.y;
 
-    if (x - 1 > 0) {
-      queue.push(createVector(x - 1, y));
-    }
+    // Add limiting pixels to painting queue
+    if (x - 1 > 0) paintingQueue.push(createVector(x - 1, y));
+    if (x + 1 < width) paintingQueue.push(createVector(x + 1, y));
+    if (y - 1 > 0) paintingQueue.push(createVector(x, y - 1));
+    if (y + 1 < height) paintingQueue.push(createVector(x, y + 1));
 
-    if (x + 1 < width) {
-      queue.push(createVector(x + 1, y));
-    }
-
-    if (y - 1 > 0) {
-      queue.push(createVector(x, y - 1));
-    }
-
-    if (y + 1 < height) {
-      queue.push(createVector(x, y + 1));
-    }
-
-    return queue;
+    return paintingQueue;
   }
 
-  function floodFill(seed, fillColour) {
+  function bucketFill(seed, fillColour) {
     loadPixels();
 
     index = 4 * (width * seed.y + seed.x);
@@ -39,16 +29,15 @@ function FillTool() {
       pixels[index + 3],
     ];
 
-    // If fillColour is same as base colour return to avoid unnecesary painting
+    // If fillColour is same as base colour return to avoid unnecesary painting processing
     if (arraysAreEquals(fillColour, seedColour)) return;
 
-    console.log('seedColour: ', seedColour);
-    let queue = [];
-    queue.push(seed);
+    let paintingQueue = [];
+    paintingQueue.push(seed);
 
-    while (queue.length) {
-      let current = queue.shift();
-      index = 4 * (width * current.y + current.x);
+    while (paintingQueue.length) {
+      let currentPixel = paintingQueue.shift();
+      index = 4 * (width * currentPixel.y + currentPixel.x);
       let colour = [
         pixels[index],
         pixels[index + 1],
@@ -64,18 +53,18 @@ function FillTool() {
         pixels[index + i] = fillColour[0 + i];
       }
 
-      queue = expandToNeighbours(queue, current);
+      paintingQueue = expandToNeighbours(paintingQueue, currentPixel);
     }
 
     updatePixels();
   }
 
   this.draw = function () {
-    //only paint when mouse is clicked the first time
+    // Only paint when mouse is clicked the first time to avoid unnecesary painting processing
     if (mouseIsPressed && isInCanvas(mouseX, mouseY)) {
       if (firstPress) { // TODO: can we remove this?
         firstPress = false;
-        floodFill(createVector(mouseX, mouseY), color(selectedColour).levels);
+        bucketFill(createVector(mouseX, mouseY), color(selectedColour).levels);
       }
     } else {
       firstPress = true;

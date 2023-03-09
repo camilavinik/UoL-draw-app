@@ -76,8 +76,8 @@ function StickersTool() {
 
   this.unselectSticker = function () {
     // Remove any existing borders
-    var items = selectAll(".stickerItem");
-    for (var i = 0; i < items.length; i++) {
+    let items = selectAll(".stickerItem");
+    for (let i = 0; i < items.length; i++) {
       items[i].style("border", "0");
     }
 

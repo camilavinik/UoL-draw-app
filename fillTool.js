@@ -1,4 +1,5 @@
-//Displays and handles the filling tool.
+// Displays and handles the filling tool. When clicking on canvas
+// paints the portion where the click was contained.
 function FillTool() {
   this.icon = "assets/fill.jpg";
   this.name = "Fill";

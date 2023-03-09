@@ -1,4 +1,4 @@
-//a tool for cutting and pasting a fragment of the canvas in other places
+// A tool for cutting and pasting a fragment of the canvas in other places
 function ScissorsTool() {
   this.icon = "assets/scissors.jpg";
   this.name = "Scissors";
@@ -8,70 +8,76 @@ function ScissorsTool() {
   let pasted = false;
 
   this.draw = function () {
-    //this tool do not use strokes
+    // This tool do not use strokes
     noStroke();
-    
-    //steps
-    switch(step) {
+
+    // Steps
+    switch (step) {
       case 0:
         if (mouseIsPressed) {
-          //fist click: save pixels and set cut-area start
-          loadPixels()
+          // first click: save pixels and set cut-area start
+          loadPixels();
           selectedArea.x = mouseX;
           selectedArea.y = mouseY;
 
-          //next step
+          // Next step
           step++;
         }
         break;
       case 1:
         if (mouseIsPressed) {
-          //first click drag: select cut-area
+          // First click drag: select cut-area
           selectedArea.w = mouseX - selectedArea.x;
           selectedArea.h = mouseY - selectedArea.y;
           updatePixels();
-          fill(255, 50, 50, 50)
+          fill(255, 50, 50, 50);
           rect(selectedArea.x, selectedArea.y, selectedArea.w, selectedArea.h);
         } else {
-          //mouse unclick: next step
+          // Mouse unclick: next step
           step++;
         }
         break;
       case 2:
         if (!mouseIsPressed) {
-          //save selected cut-area
+          // Save selected cut-area
           updatePixels();
-          selectedArea.pixels = get(selectedArea.x, selectedArea.y, abs(selectedArea.w), abs(selectedArea.h));
-    
-          //remove pixels
-          fill(255)
-          rect(selectedArea.x, selectedArea.y, selectedArea.w, selectedArea.h)
-    
-          //next step
-          step++
+          selectedArea.pixels = get(
+            selectedArea.x,
+            selectedArea.y,
+            abs(selectedArea.w),
+            abs(selectedArea.h)
+          );
+
+          // Remove pixels
+          fill(255);
+          rect(selectedArea.x, selectedArea.y, selectedArea.w, selectedArea.h);
+
+          // Next step
+          step++;
         }
         break;
       case 3:
         if (mouseIsPressed) {
-          //on click again: paste cut-area on the canvas
-          //check the area its not 0 and avoid error
-          if ((selectedArea.w * selectedArea.h) !== 0) image(selectedArea.pixels, mouseX, mouseY)
+          // On click again: paste cut-area on the canvas
+          // Check the area its not 0 and avoid error
+          if (selectedArea.w * selectedArea.h !== 0)
+            image(selectedArea.pixels, mouseX, mouseY);
           loadPixels();
           pasted = true;
         } else if (pasted) {
-          //once pasted: reset
-          resetTool()
+          // Once pasted: reset
+          resetTool();
         }
-        break;  
+        break;
     }
 
-    function resetTool () {
+    function resetTool() {
       step = 0;
       pasted = false;
       selectedArea = {};
     }
 
-    this.unselectTool = function() {
+    this.unselectTool = function () {
       updatePixels();
       resetTool();
     };

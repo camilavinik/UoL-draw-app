@@ -1,6 +1,6 @@
-//Displays and handles the colour palette.
+// Displays and handles the colour palette.
 function ColourPalette() {
-  //a list of web colour strings
+  // List of web colour strings
   this.colours = [
     "black",
     "silver",
@@ -21,39 +21,39 @@ function ColourPalette() {
     "teal",
     "aqua",
   ];
-  //make the start colour be black
+  // Make the start colour be black
 
-  var colourClick = function () {
-    //remove the old border
-    var current = select("#" + selectedColour + "Swatch");
+  let colourClick = function () {
+    // Remove the old selector border
+    let current = select("#" + selectedColour + "Swatch");
     current?.style("border", "0");
 
-    //get the new colour from the id of the clicked element
-    var c = this.id().split("Swatch")[0];
+    // Get the new colour from the id of the clicked element
+    const c = this.id().split("Swatch")[0];
 
-    //set the selected colour and fill and stroke
+    // Set the selected colour and fill and stroke
     selectedColour = c;
     fill(c);
     stroke(c);
 
-    //add a new border to the selected colour
+    // Add a new border to the selected colour
     this.style("border", "2px solid blue");
   };
 
-  //load in the colours
+  // Load in the colours
   this.loadColours = function () {
-    //set the fill and stroke properties to be black at the start of the programme
-    //running
+    // Set the fill and stroke properties to be black at the start of the programme
+    // running
     fill(this.colours[0]);
     stroke(this.colours[0]);
 
-    //for each colour create a new div in the html for the swatches
-    for (var i = 0; i < this.colours.length; i++) {
-      var colourID = this.colours[i] + "Swatch";
+    // For each colour create a new div in the html for the swatches
+    for (let i = 0; i < this.colours.length; i++) {
+      const colourID = this.colours[i] + "Swatch";
 
       //using JQuery add the swatch to the palette and set its background colour
       //to be the colour value.
-      var colourSwatch = createDiv();
+      let colourSwatch = createDiv();
       colourSwatch.class("swatches");
       colourSwatch.id(colourID);
 
@@ -62,16 +62,16 @@ function ColourPalette() {
       colourSwatch.mouseClicked(colourClick);
     }
 
-    //create color picker and add it to the html
+    // Create color picker and add it to the html
     let colourPicker = createInput("#D8BFD8", "color");
     colourPicker.size(41, 41);
     colourPicker.position(305, height + 95);
     colourPicker.input(function () {
       colourPicker.id(this.value() + "Swatch");
-      //call colourClick and pass this reference
+      // Call colourClick and pass this reference
       colourClick.call(this);
     });
   };
-  //call the loadColours function now it is declared
+  // Call the loadColours function now it is declared
   this.loadColours();
 }

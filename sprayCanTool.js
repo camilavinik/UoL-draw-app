@@ -1,17 +1,18 @@
-function SprayCanTool(){
-	
-	this.name = "sprayCanTool";
-	this.icon = "assets/sprayCan.jpg";
+function SprayCanTool() {
+  this.name = "sprayCanTool";
+  this.icon = "assets/sprayCan.jpg";
 
-	var points = 13;
-	var spread = 10;
+  let points = 13;
+  let spread = 10;
 
-	this.draw = function(){
-		var r = random(5,10);
-		if(mouseIsPressed){
-			for(var i = 0; i < points; i++){
-				point(random(mouseX-spread, mouseX + spread), random(mouseY-spread, mouseY+spread));
-			}
-		}
-	};
+  this.draw = function () {
+    if (mouseIsPressed) {
+      for (let i = 0; i < points; i++) {
+        point(
+          random(mouseX - spread, mouseX + spread),
+          random(mouseY - spread, mouseY + spread)
+        );
+      }
+    }
+  };
 }

@@ -1,4 +1,4 @@
-//container object for storing the tools. Functions to add new tools and select a tool
+// Container object for storing the tools. Functions to add new tools and select a tool
 function Toolbox() {
   let self = this;
 
@@ -6,7 +6,7 @@ function Toolbox() {
   this.selectedTool = null;
 
   let toolbarItemClick = function () {
-    //remove any existing borders
+    // Remove any existing borders
     let items = selectAll(".sideBarItem");
     for (let i = 0; i < items.length; i++) {
       items[i].style("border", "0");
@@ -15,11 +15,11 @@ function Toolbox() {
     let toolName = this.id().split("sideBarItem")[0];
     self.selectTool(toolName);
 
-    //call loadPixels to make sure most recent changes are saved to pixel array
+    // Call loadPixels to make sure most recent changes are saved to pixel array
     loadPixels();
   };
 
-  //add a new tool icon to the html page
+  // Add a new tool icon to the html page
   let addToolIcon = function (icon, name) {
     let sideBarItem = createDiv("<img src='" + icon + "'></div>");
     sideBarItem.class("sideBarItem");
@@ -28,40 +28,40 @@ function Toolbox() {
     sideBarItem.mouseClicked(toolbarItemClick);
   };
 
-  //add a tool to the tools array
+  // Add a tool to the tools array
   this.addTool = function (tool) {
-    //check that the object tool has an icon and a name
+    // Check that the object tool has an icon and a name
     if (!tool.hasOwnProperty("icon") || !tool.hasOwnProperty("name")) {
       alert("make sure your tool has both a name and an icon");
     }
     this.tools.push(tool);
     addToolIcon(tool.icon, tool.name);
-    //if no tool is selected (ie. none have been added so far)
-    //make this tool the selected one.
+    // If no tool is selected (ie. none have been added so far)
+    // make this tool the selected one.
     if (this.selectedTool == null) {
       this.selectTool(tool.name);
     }
   };
 
   this.selectTool = function (toolName) {
-    //search through the tools for one that's name matches toolName
+    // Search through the tools for one that's name matches toolName
     for (let i = 0; i < this.tools.length; i++) {
       if (this.tools[i].name == toolName) {
-        //if the tool has an unselectTool method run it.
+        // If the tool has an unselectTool method run it.
         if (
           this.selectedTool != null &&
           this.selectedTool.hasOwnProperty("unselectTool")
         ) {
           this.selectedTool.unselectTool();
         }
-        //select the tool and highlight it on the toolbar
+        // Select the tool and highlight it on the toolbar
         this.selectedTool = this.tools[i];
         select("#" + toolName + "sideBarItem").style(
           "border",
           "2px solid blue"
         );
 
-        //if the tool has an options area. Populate it now.
+        // If the tool has an options area. Populate it now.
         if (this.selectedTool.hasOwnProperty("populateOptions")) {
           this.selectedTool.populateOptions();
         }
@@ -70,17 +70,17 @@ function Toolbox() {
   };
 
   this.unselectTool = function () {
-    //remove any existing borders
+    // remove any existing borders
     let items = selectAll(".sideBarItem");
     for (let i = 0; i < items.length; i++) {
       items[i].style("border", "0");
     }
 
-    //if the tool has an unselectTool method run it.
+    // if the tool has an unselectTool method run it.
     if (this.selectedTool?.hasOwnProperty("unselectTool")) {
       this.selectedTool.unselectTool();
     }
-    // remove selected tool
+    //  remove selected tool
     this.selectedTool = null;
   };
 }

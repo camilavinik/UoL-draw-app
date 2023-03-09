@@ -1,6 +1,6 @@
-//Displays and handles the line weight selector.
+// Displays and handles the line weight selector.
 function LineWeight() {
-  //an object with the lineWeights
+  // An object with the lineWeights
   const lineWeights = {
     small: 2,
     medium: 5,
@@ -8,29 +8,29 @@ function LineWeight() {
   };
 
   const weightClick = function () {
-    //remove the old border
+    // Remove the old border
     const current = select("#" + selectedLine);
     current.style("border", "0");
 
-    //get the new line weight from the id of the clicked element
+    // Get the new line weight from the id of the clicked element
     const line = this.id();
 
-    //set the selected line weight
+    // Set the selected line weight
     strokeWeight(lineWeights[line]);
     selectedLine = line;
 
-    //add a new border to the selected line weight
+    // Add a new border to the selected line weight
     this.style("border", "2px solid blue");
   };
 
-  //load in the line weights
+  // Load in the line weights
   this.loadLineWeights = function () {
-    //set the strokeWeight property to be small at the start of the programme running
+    // Set the strokeWeight property to be small at the start of the programme running
     strokeWeight(lineWeights.small);
 
-    //for each line weight create a new div in the html for the swatches
+    // For each line weight create a new div in the html for the swatches
     for (const line in lineWeights) {
-      //using JQuery add the line weight option
+      // Using JQuery add the line weight option
       const lineElement = createDiv();
       lineElement.id(line);
       lineElement.class("swatches lineWeightContainer");
@@ -48,6 +48,6 @@ function LineWeight() {
 
     select("#small").style("border", "2px solid blue");
   };
-  //call the loadLineWeights function now it is declared
+  // call the loadLineWeights function now it is declared
   this.loadLineWeights();
 }

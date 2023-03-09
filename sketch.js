@@ -1,14 +1,14 @@
-//global variables that will store the toolbox colour palette
-//amnd the helper functions
-var toolbox = null;
-var stickers = null;
-var colourP = null;
-var lineWeight = null;
-var helpers = null;
-var selectedColour = 'black';
-var selectedLine = 'small'
+// Global variables that will store the toolbox colour palette
+// amnd the helper functions
+let toolbox = null;
+let stickers = null;
+let colourP = null;
+let lineWeight = null;
+let helpers = null;
+let selectedColour = "black";
+let selectedLine = "small";
 
-var stickersImg = {
+let stickersImg = {
   star: null,
   heart: null,
   happy: null,
@@ -21,29 +21,29 @@ function preload() {
 }
 
 function setup() {
-  //create a canvas to fill the content div from index.html
+  // Create a canvas to fill the content div from index.html
   canvasContainer = select("#content");
-  var c = createCanvas(
+  let c = createCanvas(
     canvasContainer.size().width,
     canvasContainer.size().height
   );
   c.parent("content");
   pixelDensity(1);
 
-  //create helper functions and the colour palette
+  // Create helper functions and the colour palette
   helpers = new HelperFunctions();
   colourP = new ColourPalette();
 
-  //create line weight picker
+  // Create line weight picker
   lineWeight = new LineWeight();
 
-  //create a toolbox for storing the tools
+  // Create a toolbox for storing the tools
   toolbox = new Toolbox();
 
-  //create stickers tool section
+  // Create stickers tool section
   stickers = new StickersTool();
 
-  //add the tools to the toolbox.
+  // Add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());
@@ -56,13 +56,13 @@ function setup() {
 }
 
 function draw() {
-  //set stroke color
-  stroke(selectedColour)
+  // Set stroke color
+  stroke(selectedColour);
 
-  //call the draw function from the selected tool.
-  //hasOwnProperty is a javascript function that tests
-  //if an object contains a particular method or property
-  //if there isn't a draw method the app will alert the user
+  // Call the draw function from the selected tool.
+  // HasOwnProperty is a javascript function that tests
+  // If an object contains a particular method or property
+  // If there isn't a draw method the app will alert the user
   noFill();
   if (toolbox.selectedTool?.hasOwnProperty("draw")) {
     toolbox.selectedTool.draw();

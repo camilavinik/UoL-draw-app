@@ -1,9 +1,9 @@
 // Returns true if the input point is inside the drawing canvas
 function isInCanvas(x, y) {
-  return x >= 0 && y < height;
+  return x >= 0 && y < height && y > 0;
 }
 
-// Returns true if both arrays have the same exact elements
+// Returns true if both arrays have the same exact elements and length
 function arraysAreEquals(a, b) {
   return (
     Array.isArray(a) &&

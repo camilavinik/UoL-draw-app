@@ -39,7 +39,6 @@ function LineWeight() {
       select("#" + line).child(weight);
       weight.class("lineWeight");
       weight.style("width", lineWeights[line] + "px");
-      console.log(lineWeights[line] + "px");
 
       select(".lineWeightSelector").child(lineElement);
 

@@ -17,7 +17,7 @@ function FillTool() {
     loadPixels();
 
     // Set index
-    let index = 4 * (width * basePixel.y + basePixel.x);
+    let index = (width * basePixel.y + basePixel.x) * 4;
     baseColour = createColourArray(index);
 
     // If fillColour is same as base colour return to avoid unnecesary painting processing
@@ -28,9 +28,9 @@ function FillTool() {
 
     while (paintingQueue.length) {
       // Get pixel from pixel array
-      const currentPixel = paintingQueue.shift();
+      const { x, y } = paintingQueue.shift();
       // Get index
-      index = 4 * (width * currentPixel.y + currentPixel.x);
+      index = (y * width + x) * 4;
       // Get current colour
       const colour = createColourArray(index);
 
@@ -42,14 +42,10 @@ function FillTool() {
         }
 
         // Add neighbour pixels to painting queue
-        if (currentPixel.x - 1 > 0)
-          paintingQueue.push(createVector(currentPixel.x - 1, currentPixel.y));
-        if (currentPixel.x + 1 < width)
-          paintingQueue.push(createVector(currentPixel.x + 1, currentPixel.y));
-        if (currentPixel.y - 1 > 0)
-          paintingQueue.push(createVector(currentPixel.x, currentPixel.y - 1));
-        if (currentPixel.y + 1 < height)
-          paintingQueue.push(createVector(currentPixel.x, currentPixel.y + 1));
+        if (x + 1 < width) paintingQueue.push(createVector(x + 1, y));
+        if (x - 1 > 0) paintingQueue.push(createVector(x - 1, y));
+        if (y + 1 < height) paintingQueue.push(createVector(x, y + 1));
+        if (y - 1 > 0) paintingQueue.push(createVector(x, y - 1));
       }
     }
 

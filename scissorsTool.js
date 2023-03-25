@@ -39,13 +39,24 @@ function ScissorsTool() {
         break;
       case 2:
         if (!mouseIsPressed) {
-          // Save selected cut-area
+          // If negative width or height, adjust selectedArea                    
+          if (selectedArea.w < 0) {
+              selectedArea.w = abs(selectedArea.w)
+              selectedArea.x = selectedArea.x - selectedArea.w
+          }
+                              
+          if (selectedArea.h < 0) {
+              selectedArea.h = abs(selectedArea.h)
+              selectedArea.y = selectedArea.y - selectedArea.h
+          }                     
+          
+          // Save selected cut-area           
           updatePixels();
           selectedArea.pixels = get(
             selectedArea.x,
             selectedArea.y,
-            abs(selectedArea.w),
-            abs(selectedArea.h)
+            selectedArea.w,
+            selectedArea.h
           );
 
           // Remove pixels
